@@ -51,7 +51,6 @@ public class CourseTest {
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Course").executeUpdate();
         em.getTransaction().commit();
-        em.close();
     }
 
     @Test

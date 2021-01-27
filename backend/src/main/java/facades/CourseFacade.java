@@ -44,7 +44,7 @@ public class CourseFacade {
         EntityManager em = emf.createEntityManager();
         String name = null;
         try {
-            Query query = em.createQuery("SELECT c.course_name FROM course c WHERE c.course_name = :name");
+            Query query = em.createQuery("SELECT c.courseName FROM Course c WHERE c.courseName = :name");
             query.setParameter("name", courseDTO.getCourseName());
             name = (String) query.getSingleResult();
         } catch (Exception e) {
