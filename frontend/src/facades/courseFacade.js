@@ -8,14 +8,14 @@ function courseFacade() {
             courseName: courseName,
             description: description,
         });
-        return fetch(baseURL + "/course/add", options)
+        return fetch(baseURL + "api/course/add", options)
             .then(handleHttpErrors)
     };
 
 
     const showCourses = () => {
         const options = makeOptions("GET", true);
-        return fetch(baseURL + "/course/all", options)
+        return fetch(baseURL + "api/course/all", options)
             .then(handleHttpErrors)
     }
 
@@ -23,7 +23,7 @@ function courseFacade() {
         const options = makeOptions("POST", true, 
             classe
         );
-        return fetch(baseURL + "/course/classe", options)
+        return fetch(baseURL + "api/course/classe", options)
             .then(handleHttpErrors)
     };
 

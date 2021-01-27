@@ -6,7 +6,7 @@ export default function Admin({ addCourse, addClass }) {
     const init = { courseName: "", description: "" };
     const [course, setCourse] = useState(init);
     const [error, setError] = useState("");
-    const classInit = { courseName2: "", semester: "", numberOfStudents: 0 }
+    const classInit = { courseName: "", semester: "", numberOfStudents: 0 }
     const [classe, setClass] = useState(classInit);
 
     const makeCourse = (evt) => {
@@ -59,7 +59,7 @@ export default function Admin({ addCourse, addClass }) {
                     <h2>Add a class to a course</h2>
                     <Form.Group onChange={onChangeClass}>
                         <Form.Label>Course name</Form.Label>
-                        <Form.Control id="courseName2" type="text" placeholder="Enter an existing course name" />
+                        <Form.Control id="courseName" type="text" placeholder="Enter an existing course name" />
                         <Form.Label>Semester</Form.Label>
                         <Form.Control id="semester" type="text" placeholder="Enter semester" />
                         <Form.Label>Number of students</Form.Label>

@@ -7,7 +7,7 @@ function apiFacade() {
       username: user,
       password: password,
     });
-    return fetch(URL + "/api/login", options)
+    return fetch(URL + "api/login", options)
       .then(handleHttpErrors)
   };
 
@@ -17,14 +17,14 @@ function apiFacade() {
       password,
     });
     return fetch(
-      URL + "/api/signup",
+      URL + "api/signup",
       options
     ).then(handleHttpErrors);
   };
 
   const fetchUserRole = (user) => {
     const options = makeOptions("GET", true);
-    return fetch(URL + "/api/info/" + user, options).then(handleHttpErrors);
+    return fetch(URL + "api/info/" + user, options).then(handleHttpErrors);
   };
 
   return {
