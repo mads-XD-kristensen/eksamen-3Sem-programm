@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import errorhandling.InvalidInputException;
 import facades.CourseFacade;
 import facades.UserFacade;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.annotation.security.RolesAllowed;
@@ -43,6 +44,17 @@ public class CourseResource {
     SecurityContext securityContext;
 
 
+        
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("all")
+    public String ShowAllCourses(){
+        List<CourseDTO> cdto = FACADE.allCourses();
+        
+        return GSON.toJson(cdto);
+    }
+    
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)

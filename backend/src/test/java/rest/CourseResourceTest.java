@@ -5,8 +5,12 @@
  */
 package rest;
 
+import DTOs.CourseDTO;
+import entities.Course;
 import entities.Role;
 import entities.User;
+import errorhandling.InvalidInputException;
+import facades.CourseFacade;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.http.ContentType;
@@ -20,6 +24,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -132,5 +137,25 @@ public class CourseResourceTest {
                 .statusCode(200)
                 .body("courseName", equalTo("Test"));
     }
+    
+    
+    @Test
+    public void testShowAllCourses() throws InvalidInputException{
+        CourseFacade.getCourseFacade(emf).addCourse(new CourseDTO(new Course("Mat", "Test")));
+        CourseFacade.getCourseFacade(emf).addCourse(new CourseDTO(new Course("Dan", "Test2")));
+        
+        
+        given()
+                .contentType("application/json")
+                .when()
+                .get("/course/all").then()
+                .statusCode(200)
+                .body(containsString("Mat"))
+                .body(containsString("Test"))
+                .body(containsString("Dan"))
+                .body(containsString("Test2"));
+    }
+    
+    
     
 }

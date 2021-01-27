@@ -13,13 +13,16 @@ function courseFacade() {
     };
 
 
-
-
+    const showCourses = () => {
+        const options = makeOptions("GET", true);
+        return fetch(baseURL + "/course/all", options).then(handleHttpErrors)
+    }
 
 
 
     return {
         addCourse,
+        showCourses,
     }
 }
 

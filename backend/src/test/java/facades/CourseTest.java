@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import entities.Course;
 import errorhandling.InvalidInputException;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import javax.persistence.EntityManager;
@@ -18,8 +19,13 @@ import javax.persistence.Query;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItemInArray;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import org.hamcrest.beans.SamePropertyValuesAs;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
@@ -38,6 +44,15 @@ public class CourseTest {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
         facade = CourseFacade.getCourseFacade(emf);
     }
+    
+    @AfterEach
+    public void tearDown() {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM Course").executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
 
     @Test
     public void testAddCourse() throws InvalidInputException {
@@ -52,5 +67,17 @@ public class CourseTest {
         CourseDTO resultCourseDTO = new CourseDTO(result);
         
         assertThat(resultCourseDTO.getCourseName(), equalTo(expCourseDTO.getCourseName()));
+    }
+    
+    
+    @Test
+    public void testAllCourses() throws InvalidInputException{
+        testAddCourse();
+        List<CourseDTO> testList = facade.allCourses();
+        
+        assertThat(testList.get(0).getCourseName(), equalTo("Matematik"));
+        
+        
+        
     }
 }

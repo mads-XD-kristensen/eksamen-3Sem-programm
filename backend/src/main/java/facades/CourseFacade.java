@@ -8,9 +8,12 @@ package facades;
 import DTOs.CourseDTO;
 import entities.Course;
 import errorhandling.InvalidInputException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -36,31 +39,45 @@ public class CourseFacade {
         }
         return instance;
     }
-    
-    
-    public CourseDTO addCourse (CourseDTO courseDTO) throws InvalidInputException {
+
+    public CourseDTO addCourse(CourseDTO courseDTO) throws InvalidInputException {
         EntityManager em = emf.createEntityManager();
         String name = null;
         try {
             Query query = em.createQuery("SELECT c.course_name FROM course c WHERE c.course_name = :name");
             query.setParameter("name", courseDTO.getCourseName());
             name = (String) query.getSingleResult();
-        } catch (Exception e) {}
-        if (name != null) {
-            throw new InvalidInputException(String.format("The name %s is already taken", name));
+        } catch (Exception e) {
         }
-        
+        if (name != null) {
+            throw new InvalidInputException(String.format("The Course name %s is already taken", name));
+        }
+
         Course course = new Course(courseDTO.getCourseName(), courseDTO.getDescription());
         em.getTransaction().begin();
         em.persist(course);
         em.getTransaction().commit();
-        
+
         return new CourseDTO(courseDTO.getCourseName(), courseDTO.getDescription());
     }
-    
-    
-    
-    
-    
-    
+
+    public List<CourseDTO> allCourses() {
+        List<CourseDTO> listOfAllCourses = new ArrayList<>();
+        List<Course> courseList = new ArrayList<>();
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            TypedQuery<Course> q1 = em.createQuery("SELECT c FROM Course c", Course.class);
+            courseList = q1.getResultList();
+        } finally {
+            em.close();
+        }
+
+        for (Course c : courseList) {
+            listOfAllCourses.add(new CourseDTO(c));
+        }
+
+        return listOfAllCourses;
+    }
+
 }

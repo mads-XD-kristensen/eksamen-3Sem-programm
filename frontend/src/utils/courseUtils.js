@@ -12,5 +12,4 @@ export function addCourseMethod(courseName, description) {
             }
             else { console.log("Network error"); }
         })
-
 }
