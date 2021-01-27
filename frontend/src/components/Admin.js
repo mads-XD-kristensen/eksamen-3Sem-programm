@@ -33,7 +33,6 @@ export default function Admin({ addCourse, addClass }) {
             ...classe,
             [evt.target.id]: evt.target.value,
         });
-        setError("")
     };
     return (
         <div className="text-center w-100">
