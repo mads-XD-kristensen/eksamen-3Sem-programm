@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
 
 function NavbarShow({ user, logout }) {
+  let isAdmin = user.roles[0];
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Link to="/" className="navbar-brand">
@@ -14,6 +15,14 @@ function NavbarShow({ user, logout }) {
           <Link to="/jokes" className="nav-link">
             Jokes
           </Link>
+          {isAdmin === "admin" ? (
+            <Link to="/admin" className="nav-link">
+              Admin
+            </Link>
+          ) : (
+              <>
+              </>
+            )}
         </Nav>
         <Nav>
           {user.username !== "" ? (
@@ -24,10 +33,10 @@ function NavbarShow({ user, logout }) {
               </button>
             </>
           ) : (
-            <Link to="/signin">
-              <button className="btn btn-primary">Sign In</button>
-            </Link>
-          )}
+              <Link to="/signin">
+                <button className="btn btn-primary">Sign In</button>
+              </Link>
+            )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
