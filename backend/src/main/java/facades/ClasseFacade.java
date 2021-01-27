@@ -10,6 +10,8 @@ import DTOs.CourseDTO;
 import entities.Classe;
 import entities.Course;
 import errorhandling.InvalidInputException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -60,4 +62,19 @@ public class ClasseFacade {
         return new ClasseDTO(classe);
     }
 
+    
+    // Virker ikke kan ikke lige gennemskue det
+    public List<String> showClassAndCourse() {
+        EntityManager em = emf.createEntityManager();
+        List<String> LC = new ArrayList<>();
+
+        try {
+            Query query = em.createQuery("SELECT c FROM Course c JOIN FETCH c.classes "); 
+            //Query query = em.createQuery("select cl from Classe cl join Course co on cl.course = co.id");
+            LC = query.getResultList();
+        } catch (Exception e) {
+        }
+        System.out.println("test " + LC);
+        return LC;
+    }
 }

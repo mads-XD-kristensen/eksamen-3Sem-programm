@@ -65,4 +65,10 @@ public class ClasseTest {
         
     }
 
+     @Test
+    public void testShowLCC() throws InvalidInputException {
+        EntityManager em = emf.createEntityManager();
+
+        facade1.showClassAndCourse();
+    }
 }

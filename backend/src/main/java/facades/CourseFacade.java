@@ -71,8 +71,7 @@ public class CourseFacade {
         EntityManager em = emf.createEntityManager();
 
         try {
-            TypedQuery<Course> q1 = em.createQuery("SELECT c FROM Course c", Course.class
-            );
+            TypedQuery<Course> q1 = em.createQuery("SELECT c FROM Course c", Course.class);
             courseList = q1.getResultList();
         } finally {
             em.close();
