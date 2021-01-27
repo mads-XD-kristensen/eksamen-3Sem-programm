@@ -18,3 +18,22 @@ export function addCourseMethod(courseName, description, setError) {
             else { console.log("Network error"); }
         })
 }
+
+
+export function addClasseMethod(classe) {
+    courseFacade.addClass(classe)
+        .then((res) => {
+            res.json()
+            console.log(res)
+
+        })
+        .catch(err => {
+            if (err.status) {
+                err.fullError.then(e => {
+                    console.log(e.detail)
+
+                })
+            }
+            else { console.log("Network error"); }
+        })
+}

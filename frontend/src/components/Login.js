@@ -23,6 +23,7 @@ function LoginDisplay({ login, user, logout }) {
         <Jumbotron className="mt-2 text-center">
           {!user.username ? (
             <>
+            <h1>Login</h1>
               <Form.Group controlId="formBasicEmail" onChange={onChange}>
                 <Form.Label>Name</Form.Label>
                 <Form.Control

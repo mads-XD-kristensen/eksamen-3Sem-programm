@@ -5,7 +5,9 @@
  */
 package rest;
 
+import DTOs.ClasseDTO;
 import DTOs.CourseDTO;
+import entities.Classe;
 import entities.Course;
 import entities.Role;
 import entities.User;
@@ -79,6 +81,7 @@ public class CourseResourceTest {
             //Delete existing users and roles to get a "fresh" database
             em.createQuery("delete from User").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
+            em.createQuery("DELETE FROM Classe").executeUpdate();
             em.createQuery("DELETE FROM Course").executeUpdate();
 
             Role userRole = new Role("user");
@@ -119,15 +122,13 @@ public class CourseResourceTest {
     private void logOut() {
         securityToken = null;
     }
-    
-    
-    
+
     @Test
     public void testAddCourse() {
-        Map<String,String> course = new HashMap<>();
+        Map<String, String> course = new HashMap<>();
         course.put("courseName", "Test");
         course.put("description", "Dette er en test");
-        
+
         login("admin", "test");
         given()
                 .contentType("application/json")
@@ -138,14 +139,12 @@ public class CourseResourceTest {
                 .statusCode(200)
                 .body("courseName", equalTo("Test"));
     }
-    
-    
+
     @Test
-    public void testShowAllCourses() throws InvalidInputException{
+    public void testShowAllCourses() throws InvalidInputException {
         CourseFacade.getCourseFacade(emf).addCourse(new CourseDTO(new Course("Mat", "Test")));
         CourseFacade.getCourseFacade(emf).addCourse(new CourseDTO(new Course("Dan", "Test2")));
-        
-        
+
         given()
                 .contentType("application/json")
                 .when()
@@ -156,7 +155,23 @@ public class CourseResourceTest {
                 .body(containsString("Dan"))
                 .body(containsString("Test2"));
     }
-    
-    
-    
+
+    @Test
+    public void testAddClasse() throws InvalidInputException {
+        CourseFacade.getCourseFacade(emf).addCourse(new CourseDTO(new Course("Mat", "Test")));
+
+        ClasseDTO c = new ClasseDTO("Mat", "3.rd semester", 5);
+
+        login("admin", "test");
+        given()
+                .contentType("application/json")
+                .body(c)
+                .header("x-access-token", securityToken)
+                .when()
+                .post("/course/classe").then()
+                .statusCode(200)
+                .body("semester", equalTo("3.rd semester"))
+                .body("numberOfStudents", equalTo(5));
+    }
+
 }

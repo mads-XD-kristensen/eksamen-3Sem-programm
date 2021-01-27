@@ -6,11 +6,15 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,12 +29,15 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "courseName")
     private String courseName;
-    
+
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.PERSIST)
+    List<Classe> classes;
 
     public Course() {
     }
@@ -38,8 +45,19 @@ public class Course implements Serializable {
     public Course(String courseName, String description) {
         this.courseName = courseName;
         this.description = description;
+        this.classes = new ArrayList<>();
     }
-    
+
+    public List<Classe> getClasses() {
+        return classes;
+    }
+
+    public void addClasse(Classe classe) {
+        this.classes.add(classe);
+        if (classe != null) {
+            classe.setCourse(this);
+        }
+    }
 
     public Long getId() {
         return id;
@@ -64,6 +82,5 @@ public class Course implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 }

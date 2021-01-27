@@ -52,6 +52,7 @@ public class CourseTest {
     public void tearDown() {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
+        em.createQuery("DELETE FROM Classe").executeUpdate();
         em.createQuery("DELETE FROM Course").executeUpdate();
         em.getTransaction().commit();
     }

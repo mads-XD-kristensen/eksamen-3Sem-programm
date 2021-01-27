@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import { Jokes, Signup, Login, Home, Admin } from "./components";
 import { getUserByJwt, setToken } from "./utils/token";
 import { loginMethod, logoutMethode } from './utils/loginUtils'
-import {addCourseMethod} from './utils/courseUtils'
+import {addCourseMethod, addClasseMethod} from './utils/courseUtils'
 
 function App() {
   const [error, setError] = useState("");
@@ -36,7 +36,7 @@ function App() {
             </Route>
 
             <Route path="/admin">
-              <Admin addCourse={addCourseMethod} />
+              <Admin addCourse={addCourseMethod} addClass={addClasseMethod}/>
             </Route>
 
             <Route path="/products" />

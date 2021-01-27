@@ -15,14 +15,23 @@ function courseFacade() {
 
     const showCourses = () => {
         const options = makeOptions("GET", true);
-        return fetch(baseURL + "/course/all", options).then(handleHttpErrors)
+        return fetch(baseURL + "/course/all", options)
+            .then(handleHttpErrors)
     }
 
+    const addClass = (classe) => {
+        const options = makeOptions("POST", true, 
+            classe
+        );
+        return fetch(baseURL + "/course/classe", options)
+            .then(handleHttpErrors)
+    };
 
 
     return {
         addCourse,
         showCourses,
+        addClass,
     }
 }
 

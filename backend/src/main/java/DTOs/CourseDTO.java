@@ -14,7 +14,7 @@ import entities.Course;
 public class CourseDTO {
     String courseName;
     String description;
-
+    
     public CourseDTO(String courseName, String description) {
         this.courseName = courseName;
         this.description = description;
