@@ -26,7 +26,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import org.hamcrest.beans.SamePropertyValuesAs;
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 
@@ -44,8 +47,8 @@ public class CourseTest {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
         facade = CourseFacade.getCourseFacade(emf);
     }
-    
-    @AfterEach
+
+    @BeforeEach
     public void tearDown() {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -64,19 +67,31 @@ public class CourseTest {
         Query q1 = em.createQuery("SELECT c FROM Course c");
         Course result = (Course) q1.getSingleResult();
         CourseDTO resultCourseDTO = new CourseDTO(result);
-        
+
         assertThat(resultCourseDTO.getCourseName(), equalTo(expCourseDTO.getCourseName()));
     }
+
     
-    
+    @Disabled // Meningen med testen er at den ikke skal fejle når der sker en exception, men er usikker på hvordan
     @Test
-    public void testAllCourses() throws InvalidInputException{
+    public void testAddCourseFailing() throws InvalidInputException {
+        EntityManager em = emf.createEntityManager();
+
+        CourseDTO expCourseDTO = new CourseDTO("Matematik", "Lær Matematik, alt fra B niveau");
+        CourseDTO expCourseDTO2 = new CourseDTO("Matematik", "Lær Matematik, alt fra A niveau");
+
+        facade.addCourse(expCourseDTO);
+
+        facade.addCourse(expCourseDTO2);
+
+    }
+
+    @Test
+    public void testAllCourses() throws InvalidInputException {
         testAddCourse();
         List<CourseDTO> testList = facade.allCourses();
-        
+
         assertThat(testList.get(0).getCourseName(), equalTo("Matematik"));
-        
-        
-        
+
     }
 }

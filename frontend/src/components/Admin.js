@@ -1,4 +1,4 @@
-import facade from "../facades/fetchFacade";
+
 import React, { useState, useEffect } from "react";
 import { Jumbotron, Row, Col, Form } from "react-bootstrap";
 
@@ -10,7 +10,7 @@ export default function Admin({ addCourse }) {
 
     const makeCourse = (evt) => {
         evt.preventDefault();
-        addCourse(course.courseName, course.description)
+        addCourse(course.courseName, course.description, setError)
     }
 
     const onChange = (evt) => {
@@ -18,6 +18,7 @@ export default function Admin({ addCourse }) {
             ...course,
             [evt.target.id]: evt.target.value,
         });
+        setError("")
     };
     return (
         <div className="text-center w-100">

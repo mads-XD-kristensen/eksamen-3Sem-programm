@@ -48,17 +48,21 @@ public class CourseFacade {
             query.setParameter("name", courseDTO.getCourseName());
             name = (String) query.getSingleResult();
         } catch (Exception e) {
-        }
-        if (name != null) {
-            throw new InvalidInputException(String.format("The Course name %s is already taken", name));
+//            System.out.println(e.getMessage());
+//            throw new InvalidInputException("The Course name is already taken");
         }
 
+        if (name != null) {
+            throw new InvalidInputException("The Course name is already taken");
+
+        }
+        
         Course course = new Course(courseDTO.getCourseName(), courseDTO.getDescription());
         em.getTransaction().begin();
         em.persist(course);
         em.getTransaction().commit();
 
-        return new CourseDTO(courseDTO.getCourseName(), courseDTO.getDescription());
+        return courseDTO;
     }
 
     public List<CourseDTO> allCourses() {
@@ -67,7 +71,8 @@ public class CourseFacade {
         EntityManager em = emf.createEntityManager();
 
         try {
-            TypedQuery<Course> q1 = em.createQuery("SELECT c FROM Course c", Course.class);
+            TypedQuery<Course> q1 = em.createQuery("SELECT c FROM Course c", Course.class
+            );
             courseList = q1.getResultList();
         } finally {
             em.close();

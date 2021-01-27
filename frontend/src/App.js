@@ -8,10 +8,11 @@ import { loginMethod, logoutMethode } from './utils/loginUtils'
 import {addCourseMethod} from './utils/courseUtils'
 
 function App() {
+  const [error, setError] = useState("");
   const init = { username: "", roles: [] };
   const [user, setUser] = useState({ ...init });
-  const login = (user, pass) => loginMethod(user, pass, setUser)
-  const logout = () => logoutMethode(setUser, init)
+  const login = (user, pass) => loginMethod(user, pass, setUser);
+  const logout = () => logoutMethode(setUser, init);
 
 
 
@@ -35,7 +36,7 @@ function App() {
             </Route>
 
             <Route path="/admin">
-              <Admin addCourse={addCourseMethod}/>
+              <Admin addCourse={addCourseMethod} />
             </Route>
 
             <Route path="/products" />
